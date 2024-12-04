@@ -1,5 +1,6 @@
 streamlit
 matplotlib
+datetime
 pandas-ta
 setuptools
 numpy==1.26.4

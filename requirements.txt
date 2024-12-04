@@ -2,7 +2,7 @@ streamlit
 matplotlib
 pandas-ta
 setuptools
-numpy==1.20.0
+numpy
 yfinance
 pandas
 sqlalchemy

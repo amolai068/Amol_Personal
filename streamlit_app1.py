@@ -163,7 +163,7 @@ if button:
         "PCJEWELLER.NS", "APOLLOPIPE.NS"
       ]
     
-    # ticker_list=['CONCOR.NS','MOTILALOFS.NS','BSOFT.NS','DMART.NS','M&M.NS','DLF.NS','PFC.NS',]
+    # ticker_list=['CONCOR.NS','MOTILALOFS.NS','BSOFT.NS','DMART.NS','M&M.NS','DLF.NS','PFC.NS']
     
     len(ticker_list)
     
@@ -264,7 +264,7 @@ if button:
             for elm in x:
                 greenzone_list.append(elm)    
         except:
-            print('no bullish stocks here!')
+            st.write('no bullish stocks here!')
         
         try:
             u=d.loc[(d[d.columns[0]]=='red')]
@@ -273,7 +273,7 @@ if button:
             for elm in q:
                 redzone_list.append(elm)
         except:
-            print('no bearish stocks here!')
+            st.write('no bearish stocks here!')
       
         # print(t)
         # print(u)
@@ -294,18 +294,18 @@ if button:
     # print(greenzone_list)
     # print(redzone_list)
 
+    result_green=pd.DataFrame(greenzone_list)
+    
     if result_green is not None:
-        result_green=pd.DataFrame(greenzone_list)
         result_green.rename(columns={0:'Bullish'},inplace=True)
     
     
-
+    result_red=pd.DataFrame(redzone_list)
     if result_red is not None:
-        result_red=pd.DataFrame(redzone_list)
         result_red.rename(columns={0:'Bearish'},inplace=True)
 
 
-    col1,col2=st.columns(3)
+    col1,col2=st.columns(2)
 
     with col1:
         if result_green is not None:

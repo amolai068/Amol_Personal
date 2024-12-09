@@ -240,7 +240,7 @@ if button:
                 dict[f'{ticker}']={'green_red':df['green_red'].tail(1).values[0]}
                 time.sleep(0.2)
 
-                print(dict)
+                st.write(dict)
              
     
           

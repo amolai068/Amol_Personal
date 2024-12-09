@@ -239,6 +239,8 @@ if button:
     
                 dict[f'{ticker}']={'green_red':df['green_red'].tail(1).values[0]}
                 time.sleep(0.2)
+
+                print(dict)
              
     
           
@@ -253,25 +255,33 @@ if button:
         c=pd.DataFrame(dict)
         
         d=c.transpose()
-        print(d)
+        # print(d)
       
+        try:
+            t=d.loc[(d[d.columns[0]]=='green')]
+            t.reset_index(inplace=True)    
+            x=t['index'].to_list()
+            for elm in x:
+                greenzone_list.append(elm)    
+        except:
+            print('no bullish stocks here!')
         
-        t=d.loc[(d[d.columns[0]]=='green')]
-        u=d.loc[(d[d.columns[0]]=='red')]
-        u.reset_index(inplace=True)
-        t.reset_index(inplace=True)
-        print(t)
-        print(u)
+        try:
+            u=d.loc[(d[d.columns[0]]=='red')]
+            u.reset_index(inplace=True)
+            q=u['index'].to_list()
+            for elm in q:
+                redzone_list.append(elm)
+        except:
+            print('no bearish stocks here!')
+      
+        # print(t)
+        # print(u)
     
         # t.to_csv(f"strategy1_{end_date}.csv")
     
-        x=t['index'].to_list()
-        for elm in x:
-            greenzone_list.append(elm)
         
-        q=u['index'].to_list()
-        for elm in q:
-            redzone_list.append(elm)
+    
       
     
     import warnings
@@ -284,66 +294,72 @@ if button:
     # print(greenzone_list)
     # print(redzone_list)
 
+    if result_green is not None:
+        result_green=pd.DataFrame(greenzone_list)
+        result_green.rename(columns={0:'Bullish'},inplace=True)
     
-    result_green=pd.DataFrame(greenzone_list)
-    result_green.rename(columns={0:'Bullish'},inplace=True)
-    result_red=pd.DataFrame(redzone_list)
-    result_red.rename(columns={0:'Bearish'},inplace=True)
+    
+
+    if result_red is not None:
+        result_red=pd.DataFrame(redzone_list)
+        result_red.rename(columns={0:'Bearish'},inplace=True)
 
 
-    col1,col2,col3=st.columns(3)
+    col1,col2=st.columns(3)
 
     with col1:
-        st.dataframe(result_green)
+        if result_green is not None:
+            st.dataframe(result_green)
     with col2:
-        st.dataframe(result_red)
+        if result_red is not None:
+            st.dataframe(result_red)
      
     
 
-    with col3:
+    # with col3:
 
 
-        # Count the length of each dataframe
-        green_count = len(result_green)
-        red_count = len(result_red)
+    #     # Count the length of each dataframe
+    #     green_count = len(result_green)
+    #     red_count = len(result_red)
         
-        # Data for bar chart
-        labels = ['Green', 'Red']
-        sizes = [green_count, red_count]
-      # Faint green and red with transparency
-        # colors=['green','red']
-        colors = [(0, 1, 0, 0.3), (1, 0, 0, 0.3)] 
-        # Create a bar chart
-        fig, ax = plt.subplots()
+    #     # Data for bar chart
+    #     labels = ['Green', 'Red']
+    #     sizes = [green_count, red_count]
+    #   # Faint green and red with transparency
+    #     # colors=['green','red']
+    #     colors = [(0, 1, 0, 0.3), (1, 0, 0, 0.3)] 
+    #     # Create a bar chart
+    #     fig, ax = plt.subplots()
         
-        # Set the background color of the entire figure to black
-        fig.patch.set_facecolor('black')
-        # fig.patch.set_facecolor('black')
-        ax.set_facecolor('black')  
+    #     # Set the background color of the entire figure to black
+    #     fig.patch.set_facecolor('black')
+    #     # fig.patch.set_facecolor('black')
+    #     ax.set_facecolor('black')  
         
-        # Create the bar chart
-        ax.bar(labels, sizes, color=colors)
+    #     # Create the bar chart
+    #     ax.bar(labels, sizes, color=colors)
         
-        # Set the title and labels (optional)
-        ax.set_title('Market Bredth', color='white')
-        ax.set_ylabel('Count', color='white')
+    #     # Set the title and labels (optional)
+    #     ax.set_title('Market Bredth', color='white')
+    #     ax.set_ylabel('Count', color='white')
         
-        # Set the x and y axis labels to be white for visibility on a dark background
-        ax.tick_params(axis='x', colors='white')
-        ax.tick_params(axis='y', colors='white')
+    #     # Set the x and y axis labels to be white for visibility on a dark background
+    #     ax.tick_params(axis='x', colors='white')
+    #     ax.tick_params(axis='y', colors='white')
         
-        # Display the bar chart in Streamlit
-        st.pyplot(fig)
+    #     # Display the bar chart in Streamlit
+    #     st.pyplot(fig)
         
-        # Optionally, display the counts below the chart
-        st.write(f"Green count: {green_count}")
-        st.write(f"Red count: {red_count}")
+    #     # Optionally, display the counts below the chart
+    #     st.write(f"Green count: {green_count}")
+    #     st.write(f"Red count: {red_count}")
     
 
-    time1=datetime.datetime.now().strftime('%H:%M:%S')
-    st.write(time1)
+    # time1=datetime.datetime.now().strftime('%H:%M:%S')
+    # st.write(time1)
 
         
-    time.sleep(10)
+    # time.sleep(10)
     
      
